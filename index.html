@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!--FONT AWESOME-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script lang="javascript" src="xlsx.full.min.js"></script>
+    <script lang="javascript" src="FileSaver.min.js"></script>
+
+    <script src="./js/main.js"></script>
+    <script src="js/popup.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="btn-ayuda">
+
+            <button id="btn-ayuda" class="btn-ayuda"><i id="btn-ayuda"class="fas fa-question-circle"></i></button>
+
+        </div>
+            <!--CARGA DE LA IMAGEN DEL TABLERO-->
+            <div class="img">
+                <img src="img/tablero.jpg" alt="Logo" class="nav-brand">
+            </div>
+            <div id="WPA" class="WPA">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WPB" class="WPB">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WPC" class="WPC">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WPD" class="WPD">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WPE" class="WPE">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WPF"  class="WPF">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WPG"  class="WPG">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WPH"  class="WPH">
+                <img src="img/WP.png"  class="pieces">
+            </div>
+            <div id="WRA" class="WRA">
+                <img src="img/WR.png"  class="pieces">
+            </div>
+            <div id="WNB" class="WNB">
+                <img src="img/WN.png"  class="pieces">
+            </div>
+            <div id="WBC"  class="WBC">
+                <img src="img/WB.png"  class="pieces">
+            </div>
+            <div id="WQ"  class="WQ">
+                <img src="img/WQ.png"  class="pieces">
+            </div>
+            <div id="WK"  class="WK">
+                <img src="img/WK.png"  class="pieces">
+            </div>
+            <div id="WBF" class="WBF">
+                <img src="img/WB.png"  class="pieces">
+            </div>
+            <div id="WNG" class="WNG">
+                <img src="img/WN.png"  class="pieces">
+            </div>
+            <div id="WRH" class="WRH">
+                <img src="img/WR.png"  class="pieces">
+            </div>
+            <div id="BPA" class="BPA">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BPB" class="BPB">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BPC" class="BPC">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BPD" class="BPD">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BPE" class="BPE">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BPF" class="BPF">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BPG" class="BPG">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BPH" class="BPH">
+                <img src="img/BP.png"  class="pieces">
+            </div>
+            <div id="BRA" class="BRA">
+                <img src="img/BR.png"  class="pieces">
+            </div>
+            <div id="BNB" class="BNB">
+                <img src="img/BN.png"  class="pieces">
+            </div>
+            <div id="BBC" class="BBC">
+                <img src="img/BB.png"  class="pieces">
+            </div>
+            <div id="BQ" class="BQ">
+                <img src="img/BQ.png"  class="pieces">
+            </div>
+            <div id="BK" class="BK">
+                <img src="img/BK.png"  class="pieces">
+            </div>
+            <div id="BBF" class="BBF">
+                <img src="img/BB.png"  class="pieces">
+            </div>
+            <div id="BNG" class="BNG">
+                <img src="img/BN.png"  class="pieces">
+            </div>
+            <div id="BRH" class="BRH">
+                <img src="img/BR.png"  class="pieces">
+            </div>
+            <div class="TablasWhite">
+                <table class="tabla" >
+                    <col span="1"class="colCol"><col>
+                    <caption>White Team</caption>
+                    <tr>
+                        <td>Pawn A</td>
+                        <td id="WhitePawnA1">----</td>
+                        <td id="WhitePawnA2">----</td>
+                        <td id="WhitePawnA3">----</td>
+                        <td id="WhitePawnA4">----</td>
+                        <td id="WhitePawnA5">----</td>
+                        <td id="WhitePawnA6">----</td>
+                        <td id="WhitePawnA7">----</td>
+                        <td id="WhitePawnA8">----</td>
+                        <td id="WhitePawnA9">----</td>
+                        <td id="WhitePawnA10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn B</td>
+                        <td id="WhitePawnB1">----</td>
+                        <td id="WhitePawnB2">----</td>
+                        <td id="WhitePawnB3">----</td>
+                        <td id="WhitePawnB4">----</td>
+                        <td id="WhitePawnB5">----</td>
+                        <td id="WhitePawnB6">----</td>
+                        <td id="WhitePawnB7">----</td>
+                        <td id="WhitePawnB8">----</td>
+                        <td id="WhitePawnB9">----</td>
+                        <td id="WhitePawnB10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn C</td>
+                        <td id="WhitePawnC1">----</td>
+                        <td id="WhitePawnC2">----</td>
+                        <td id="WhitePawnC3">----</td>
+                        <td id="WhitePawnC4">----</td>
+                        <td id="WhitePawnC5">----</td>
+                        <td id="WhitePawnC6">----</td>
+                        <td id="WhitePawnC7">----</td>
+                        <td id="WhitePawnC8">----</td>
+                        <td id="WhitePawnC9">----</td>
+                        <td id="WhitePawnC10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn D</td>
+                        <td id="WhitePawnD1">----</td>
+                        <td id="WhitePawnD2">----</td>
+                        <td id="WhitePawnD3">----</td>
+                        <td id="WhitePawnD4">----</td>
+                        <td id="WhitePawnD5">----</td>
+                        <td id="WhitePawnD6">----</td>
+                        <td id="WhitePawnD7">----</td>
+                        <td id="WhitePawnD8">----</td>
+                        <td id="WhitePawnD9">----</td>
+                        <td id="WhitePawnD10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn E</td>
+                        <td id="WhitePawnE1">----</td>
+                        <td id="WhitePawnE2">----</td>
+                        <td id="WhitePawnE3">----</td>
+                        <td id="WhitePawnE4">----</td>
+                        <td id="WhitePawnE5">----</td>
+                        <td id="WhitePawnE6">----</td>
+                        <td id="WhitePawnE7">----</td>
+                        <td id="WhitePawnE8">----</td>
+                        <td id="WhitePawnE9">----</td>
+                        <td id="WhitePawnE10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn F</td>
+                        <td id="WhitePawnF1">----</td>
+                        <td id="WhitePawnF2">----</td>
+                        <td id="WhitePawnF3">----</td>
+                        <td id="WhitePawnF4">----</td>
+                        <td id="WhitePawnF5">----</td>
+                        <td id="WhitePawnF6">----</td>
+                        <td id="WhitePawnF7">----</td>
+                        <td id="WhitePawnF8">----</td>
+                        <td id="WhitePawnF9">----</td>
+                        <td id="WhitePawnF10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn G</td>
+                        <td id="WhitePawnG1">----</td>
+                        <td id="WhitePawnG2">----</td>
+                        <td id="WhitePawnG3">----</td>
+                        <td id="WhitePawnG4">----</td>
+                        <td id="WhitePawnG5">----</td>
+                        <td id="WhitePawnG6">----</td>
+                        <td id="WhitePawnG7">----</td>
+                        <td id="WhitePawnG8">----</td>
+                        <td id="WhitePawnG9">----</td>
+                        <td id="WhitePawnG10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn H</td>
+                        <td id="WhitePawnH1">----</td>
+                        <td id="WhitePawnH2">----</td>
+                        <td id="WhitePawnH3">----</td>
+                        <td id="WhitePawnH4">----</td>
+                        <td id="WhitePawnH5">----</td>
+                        <td id="WhitePawnH6">----</td>
+                        <td id="WhitePawnH7">----</td>
+                        <td id="WhitePawnH8">----</td>
+                        <td id="WhitePawnH9">----</td>
+                        <td id="WhitePawnH10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Rook A</td>
+                        <td id="WhiteRookA1">----</td>
+                        <td id="WhiteRookA2">----</td>
+                        <td id="WhiteRookA3">----</td>
+                        <td id="WhiteRookA4">----</td>
+                        <td id="WhiteRookA5">----</td>
+                        <td id="WhiteRookA6">----</td>
+                        <td id="WhiteRookA7">----</td>
+                        <td id="WhiteRookA8">----</td>
+                        <td id="WhiteRookA9">----</td>
+                        <td id="WhiteRookA10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Rook H</td>
+                        <td id="WhiteRookH1">----</td>
+                        <td id="WhiteRookH2">----</td>
+                        <td id="WhiteRookH3">----</td>
+                        <td id="WhiteRookH4">----</td>
+                        <td id="WhiteRookH5">----</td>
+                        <td id="WhiteRookH6">----</td>
+                        <td id="WhiteRookH7">----</td>
+                        <td id="WhiteRookH8">----</td>
+                        <td id="WhiteRookH9">----</td>
+                        <td id="WhiteRookH10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Horse B</td>
+                        <td id="WhiteHorseB1">----</td>
+                        <td id="WhiteHorseB2">----</td>
+                        <td id="WhiteHorseB3">----</td>
+                        <td id="WhiteHorseB4">----</td>
+                        <td id="WhiteHorseB5">----</td>
+                        <td id="WhiteHorseB6">----</td>
+                        <td id="WhiteHorseB7">----</td>
+                        <td id="WhiteHorseB8">----</td>
+                        <td id="WhiteHorseB9">----</td>
+                        <td id="WhiteHorseB10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Horse G</td>
+                        <td id="WhiteHorseG1">----</td>
+                        <td id="WhiteHorseG2">----</td>
+                        <td id="WhiteHorseG3">----</td>
+                        <td id="WhiteHorseG4">----</td>
+                        <td id="WhiteHorseG5">----</td>
+                        <td id="WhiteHorseG6">----</td>
+                        <td id="WhiteHorseG7">----</td>
+                        <td id="WhiteHorseG8">----</td>
+                        <td id="WhiteHorseG9">----</td>
+                        <td id="WhiteHorseG10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Bishop C</td>
+                        <td id="WhiteBishopC1">----</td>
+                        <td id="WhiteBishopC2">----</td>
+                        <td id="WhiteBishopC3">----</td>
+                        <td id="WhiteBishopC4">----</td>
+                        <td id="WhiteBishopC5">----</td>
+                        <td id="WhiteBishopC6">----</td>
+                        <td id="WhiteBishopC7">----</td>
+                        <td id="WhiteBishopC8">----</td>
+                        <td id="WhiteBishopC9">----</td>
+                        <td id="WhiteBishopC10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Bishop F</td>
+                        <td id="WhiteBishopF1">----</td>
+                        <td id="WhiteBishopF2">----</td>
+                        <td id="WhiteBishopF3">----</td>
+                        <td id="WhiteBishopF4">----</td>
+                        <td id="WhiteBishopF5">----</td>
+                        <td id="WhiteBishopF6">----</td>
+                        <td id="WhiteBishopF7">----</td>
+                        <td id="WhiteBishopF8">----</td>
+                        <td id="WhiteBishopF9">----</td>
+                        <td id="WhiteBishopF10">----</td>
+                    </tr>
+                    <tr>
+                        <td>King</td>
+                        <td id="WhiteKing1">----</td>
+                        <td id="WhiteKing2">----</td>
+                        <td id="WhiteKing3">----</td>
+                        <td id="WhiteKing4">----</td>
+                        <td id="WhiteKing5">----</td>
+                        <td id="WhiteKing6">----</td>
+                        <td id="WhiteKing7">----</td>
+                        <td id="WhiteKing8">----</td>
+                        <td id="WhiteKing9">----</td>
+                        <td id="WhiteKing10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Queen</td>
+                        <td id="WhiteQueen1">----</td>
+                        <td id="WhiteQueen2">----</td>
+                        <td id="WhiteQueen3">----</td>
+                        <td id="WhiteQueen4">----</td>
+                        <td id="WhiteQueen5">----</td>
+                        <td id="WhiteQueen6">----</td>
+                        <td id="WhiteQueen7">----</td>
+                        <td id="WhiteQueen8">----</td>
+                        <td id="WhiteQueen9">----</td>
+                        <td id="WhiteQueen10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Overall</td>
+                        <td id="WhiteOverall1">----</td>
+                        <td id="WhiteOverall2">----</td>
+                        <td id="WhiteOverall3">----</td>
+                        <td id="WhiteOverall4">----</td>
+                        <td id="WhiteOverall5">----</td>
+                        <td id="WhiteOverall6">----</td>
+                        <td id="WhiteOverall7">----</td>
+                        <td id="WhiteOverall8">----</td>
+                        <td id="WhiteOverall9">----</td>
+                        <td id="WhiteOverall10">----</td>
+                    </tr>
+                </table>
+
+
+            </div>
+            <div class="TablasBlack">
+            <table class="tabla">
+                <caption>Black Team</caption>
+                    <tr>
+                        <td>Pawn A</td>
+                        <td id="BlackPawnA1">----</td>
+                        <td id="BlackPawnA2">----</td>
+                        <td id="BlackPawnA3">----</td>
+                        <td id="BlackPawnA4">----</td>
+                        <td id="BlackPawnA5">----</td>
+                        <td id="BlackPawnA6">----</td>
+                        <td id="BlackPawnA7">----</td>
+                        <td id="BlackPawnA8">----</td>
+                        <td id="BlackPawnA9">----</td>
+                        <td id="BlackPawnA10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn B</td>
+                        <td id="BlackPawnB1">----</td>
+                        <td id="BlackPawnB2">----</td>
+                        <td id="BlackPawnB3">----</td>
+                        <td id="BlackPawnB4">----</td>
+                        <td id="BlackPawnB5">----</td>
+                        <td id="BlackPawnB6">----</td>
+                        <td id="BlackPawnB7">----</td>
+                        <td id="BlackPawnB8">----</td>
+                        <td id="BlackPawnB9">----</td>
+                        <td id="BlackPawnB10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn C</td>
+                        <td id="BlackPawnC1">----</td>
+                        <td id="BlackPawnC2">----</td>
+                        <td id="BlackPawnC3">----</td>
+                        <td id="BlackPawnC4">----</td>
+                        <td id="BlackPawnC5">----</td>
+                        <td id="BlackPawnC6">----</td>
+                        <td id="BlackPawnC7">----</td>
+                        <td id="BlackPawnC8">----</td>
+                        <td id="BlackPawnC9">----</td>
+                        <td id="BlackPawnC10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn D</td>
+                        <td id="BlackPawnD1">----</td>
+                        <td id="BlackPawnD2">----</td>
+                        <td id="BlackPawnD3">----</td>
+                        <td id="BlackPawnD4">----</td>
+                        <td id="BlackPawnD5">----</td>
+                        <td id="BlackPawnD6">----</td>
+                        <td id="BlackPawnD7">----</td>
+                        <td id="BlackPawnD8">----</td>
+                        <td id="BlackPawnD9">----</td>
+                        <td id="BlackPawnD10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn E</td>
+                        <td id="BlackPawnE1">----</td>
+                        <td id="BlackPawnE2">----</td>
+                        <td id="BlackPawnE3">----</td>
+                        <td id="BlackPawnE4">----</td>
+                        <td id="BlackPawnE5">----</td>
+                        <td id="BlackPawnE6">----</td>
+                        <td id="BlackPawnE7">----</td>
+                        <td id="BlackPawnE8">----</td>
+                        <td id="BlackPawnE9">----</td>
+                        <td id="BlackPawnE10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn F</td>
+                        <td id="BlackPawnF1">----</td>
+                        <td id="BlackPawnF2">----</td>
+                        <td id="BlackPawnF3">----</td>
+                        <td id="BlackPawnF4">----</td>
+                        <td id="BlackPawnF5">----</td>
+                        <td id="BlackPawnF6">----</td>
+                        <td id="BlackPawnF7">----</td>
+                        <td id="BlackPawnF8">----</td>
+                        <td id="BlackPawnF9">----</td>
+                        <td id="BlackPawnF10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn G</td>
+                        <td id="BlackPawnG1">----</td>
+                        <td id="BlackPawnG2">----</td>
+                        <td id="BlackPawnG3">----</td>
+                        <td id="BlackPawnG4">----</td>
+                        <td id="BlackPawnG5">----</td>
+                        <td id="BlackPawnG6">----</td>
+                        <td id="BlackPawnG7">----</td>
+                        <td id="BlackPawnG8">----</td>
+                        <td id="BlackPawnG9">----</td>
+                        <td id="BlackPawnG10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Pawn H</td>
+                        <td id="BlackPawnH1">----</td>
+                        <td id="BlackPawnH2">----</td>
+                        <td id="BlackPawnH3">----</td>
+                        <td id="BlackPawnH4">----</td>
+                        <td id="BlackPawnH5">----</td>
+                        <td id="BlackPawnH6">----</td>
+                        <td id="BlackPawnH7">----</td>
+                        <td id="BlackPawnH8">----</td>
+                        <td id="BlackPawnH9">----</td>
+                        <td id="BlackPawnH10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Rook A</td>
+                        <td id="BlackRookA1">----</td>
+                        <td id="BlackRookA2">----</td>
+                        <td id="BlackRookA3">----</td>
+                        <td id="BlackRookA4">----</td>
+                        <td id="BlackRookA5">----</td>
+                        <td id="BlackRookA6">----</td>
+                        <td id="BlackRookA7">----</td>
+                        <td id="BlackRookA8">----</td>
+                        <td id="BlackRookA9">----</td>
+                        <td id="BlackRookA10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Rook H</td>
+                        <td id="BlackRookH1">----</td>
+                        <td id="BlackRookH2">----</td>
+                        <td id="BlackRookH3">----</td>
+                        <td id="BlackRookH4">----</td>
+                        <td id="BlackRookH5">----</td>
+                        <td id="BlackRookH6">----</td>
+                        <td id="BlackRookH7">----</td>
+                        <td id="BlackRookH8">----</td>
+                        <td id="BlackRookH9">----</td>
+                        <td id="BlackRookH10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Horse B</td>
+                        <td id="BlackHorseB1">----</td>
+                        <td id="BlackHorseB2">----</td>
+                        <td id="BlackHorseB3">----</td>
+                        <td id="BlackHorseB4">----</td>
+                        <td id="BlackHorseB5">----</td>
+                        <td id="BlackHorseB6">----</td>
+                        <td id="BlackHorseB7">----</td>
+                        <td id="BlackHorseB8">----</td>
+                        <td id="BlackHorseB9">----</td>
+                        <td id="BlackHorseB10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Horse G</td>
+                        <td id="BlackHorseG1">----</td>
+                        <td id="BlackHorseG2">----</td>
+                        <td id="BlackHorseG3">----</td>
+                        <td id="BlackHorseG4">----</td>
+                        <td id="BlackHorseG5">----</td>
+                        <td id="BlackHorseG6">----</td>
+                        <td id="BlackHorseG7">----</td>
+                        <td id="BlackHorseG8">----</td>
+                        <td id="BlackHorseG9">----</td>
+                        <td id="BlackHorseG10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Bishop C</td>
+                        <td id="BlackBishopC1">----</td>
+                        <td id="BlackBishopC2">----</td>
+                        <td id="BlackBishopC3">----</td>
+                        <td id="BlackBishopC4">----</td>
+                        <td id="BlackBishopC5">----</td>
+                        <td id="BlackBishopC6">----</td>
+                        <td id="BlackBishopC7">----</td>
+                        <td id="BlackBishopC8">----</td>
+                        <td id="BlackBishopC9">----</td>
+                        <td id="BlackBishopC10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Bishop F</td>
+                        <td id="BlackBishopF1">----</td>
+                        <td id="BlackBishopF2">----</td>
+                        <td id="BlackBishopF3">----</td>
+                        <td id="BlackBishopF4">----</td>
+                        <td id="BlackBishopF5">----</td>
+                        <td id="BlackBishopF6">----</td>
+                        <td id="BlackBishopF7">----</td>
+                        <td id="BlackBishopF8">----</td>
+                        <td id="BlackBishopF9">----</td>
+                        <td id="BlackBishopF10">----</td>
+                    </tr>
+                    <tr>
+                        <td>King</td>
+                        <td id="BlackKing1">----</td>
+                        <td id="BlackKing2">----</td>
+                        <td id="BlackKing3">----</td>
+                        <td id="BlackKing4">----</td>
+                        <td id="BlackKing5">----</td>
+                        <td id="BlackKing6">----</td>
+                        <td id="BlackKing7">----</td>
+                        <td id="BlackKing8">----</td>
+                        <td id="BlackKing9">----</td>
+                        <td id="BlackKing10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Queen</td>
+                        <td id="BlackQueen1">----</td>
+                        <td id="BlackQueen2">----</td>
+                        <td id="BlackQueen3">----</td>
+                        <td id="BlackQueen4">----</td>
+                        <td id="BlackQueen5">----</td>
+                        <td id="BlackQueen6">----</td>
+                        <td id="BlackQueen7">----</td>
+                        <td id="BlackQueen8">----</td>
+                        <td id="BlackQueen9">----</td>
+                        <td id="BlackQueen10">----</td>
+                    </tr>
+                    <tr>
+                        <td>Overall</td>
+                        <td id="BlackOverall1">----</td>
+                        <td id="BlackOverall2">----</td>
+                        <td id="BlackOverall3">----</td>
+                        <td id="BlackOverall4">----</td>
+                        <td id="BlackOverall5">----</td>
+                        <td id="BlackOverall6">----</td>
+                        <td id="BlackOverall7">----</td>
+                        <td id="BlackOverall8">----</td>
+                        <td id="BlackOverall9">----</td>
+                        <td id="BlackOverall10">----</td>
+                    </tr>
+                </table>
+
+            </div> 
+            <div class="TablasBlack">
+                <table class="tabla">
+                    <caption>Movements</caption>
+                    <col span="1"class="colCol"><col>
+                        <tr>
+                            <td colspan="2">White Team</td>
+                            <td colspan="2">Black Team</td>
+                        </tr>
+                        <tr>
+                            <td id="firstMovNumWhite">1.</td>
+                            <td id="firstMovWhite">----</td>
+                            <td id="firstMovNumBlack">1.</td>
+                            <td id="firstMovBlack">----</td>
+                        </tr>
+    
+                        <tr>
+                            <td id="secondMovNumWhite">2.</td>
+                            <td id="secondMovWhite">----</td>
+                            <td id="secondMovNumBlack">2.</td>
+                            <td id="secondMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="thirdMovNumWhite">3.</td>
+                            <td id="thirdMovWhite">----</td>
+                            <td id="thirdMovNumBlack">3.</td>
+                            <td id="thirdMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="fourthMovNumWhite">4.</td>
+                            <td id="fourthMovWhite">----</td>
+                            <td id="fourthMovNumBlack">4.</td>
+                            <td id="fourthMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="fifthMovNumWhite">5.</td>
+                            <td id="fifthMovWhite">----</td>
+                            <td id="fifthMovNumBlack">5.</td>
+                            <td id="fifthMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="sixthMovNumWhite">6.</td>
+                            <td id="sixthMovWhite">----</td>
+                            <td id="sixthMovNumBlack">6.</td>
+                            <td id="sixthMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="seventhMovNumWhite">7.</td>
+                            <td id="seventhMovWhite">----</td>
+                            <td id="seventhMovNumBlack">7.</td>
+                            <td id="seventhMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="eighthMovNumWhite">8.</td>
+                            <td id="eighthMovWhite">----</td>
+                            <td id="eighthMovNumBlack">8.</td>
+                            <td id="eighthMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="ninthMovNumWhite">9.</td>
+                            <td id="ninthMovWhite">----</td>
+                            <td id="ninthMovNumBlack">9.</td>
+                            <td id="ninthMovBlack">----</td>
+                        </tr>
+                        <tr>
+                            <td id="tenthMovNumWhite">10.</td>
+                            <td id="tenthMovWhite">----</td>
+                            <td id="tenthMovNumBlack">10.</td>
+                            <td id="tenthMovBlack">----</td>
+                        </tr>
+
+                    </table>
+    
+                </div> 
+            
+
+            <!--BOTONES DE ITERACCION-->
+            <div class="botones">
+
+                <a href="javascript:doFirstMove()" id="btn-mover-primer-paso" class="btn-mover-primer-paso" ><i id="btn-mover-primer-paso"  class="fas fa-angle-double-left"></i></a>
+                <a href="javascript:doOneMoveBackward()" id="btn-mover-anterior-paso" class="btn-mover-anterior-paso"><i id="btn-mover-anterior-paso" class="fas fa-arrow-left"></i></a>
+                <a href="javascript:doOneMoveForward()" id="btn-mover-siguiente-paso" class="btn-mover-siguiente-paso"><i id="btn-mover-siguiente-paso" class="fas fa-arrow-right"></i></a>
+                <a href="javascript:doLastMove()" id="btn-mover-ultimo-paso" class="btn-mover-ultimo-paso"><i id="btn-mover-ultimo-paso" class="fas fa-angle-double-right"></i></a>
+
+            </div>
+
+            <!--BOTON DE CARGAR EL FICHERO-->
+            <div class="botones-carga-info">
+
+                <form id="btn-carga">
+
+                    <input type="file" id="textFile" accept=".pgn" name="Datos" style="display:none">
+
+                </form>    
+                <a href="javascript:doClick()" id="btn-carga" class="btn-carga">Upload Game</a>
+            
+                
+                
+                <!--BOTON DE INFORMACION ADICIONAL-->
+
+                <button id="btn-info" class="btn-info">Additional Information</button>
+
+            </div>
+
+
+            <div class="btn-descarga">
+
+
+                <a href="javascript:doDownloadTable()" id="btn-des" class="btn-des">Download Survivability and Equilibrium Values</a>
+
+            </div>
+            
+
+            <div class="overlay" id="overlay">
+
+                <div class="popup" id="popup">
+
+                    <a href="#" id="btn-cerrar-popup" class="btn-cerrar-popup"><i id="btn-cerrar-popup" class="fas fa-times"></i></a>
+
+                    <h3>Additional Information</h3>
+                    <h5>Event: <p id="infoEvent"></p></h5>
+                    <h5>Site:<p id="infoSite"></p></h5>
+                    <h5>Date:<p id="infoDate"></p></h5>
+                    <h5>Round:<p id="infoRound"></p></h5>
+                    <h5>White:<p id="infoWhite"></p></h5>
+                    <h5>Black:<p id="infoBlack"></p></h5>
+                    <h5>Result:<p id="infoResult"></p></h5>
+                    
+                </div>
+
+            </div>
+
+            <div class="overlay" id="overlay-ayuda">
+
+                <div class="popup" id="popup-ayuda">
+
+                    <a href="#" id="btn-cerrar-popup-ayuda" class="btn-cerrar-popup-ayuda"><i id="btn-cerrar-popup-ayuda" class="fas fa-times"></i></a>
+
+                    <h3>Help</h3>
+                    <h5>The application calculates the survivability and equilibrium values at each point of the game.</h5>
+
+                    <h5>The buttons immediately below the chessboard allow you to move the game back to the starting point, 
+                        move back to the previous move, move forward to the next move and move forward to the last move.</h5>
+                        
+                    <h5>The "Upload Game" button allows you to introduce into the system a file with .pgn format  that you want to analyse.</h5>
+                        
+                    <h5>The "Additional Information" button allows you to view additional game data.</h5>
+                        
+                    <h5>The "Download Survivability and Equilibrium Values" button allows you to download a database with the survivability and equilibrium values data of the uploaded game.
+                        and survivability values of the loaded game.</h5>
+                        
+                    <h5>In each of the tables you will find the last ten survival values with respect to the current movement of the different pieces.</h5>
+                        
+                    <h5>The table on the right shows the moves of the game.</h5>
+
+                    <h5>The buttons below the move table allow you to move to the next ten moves or to the previous ten moves.</h5>
+
+                    
+                </div>
+
+            </div>
+
+            <div class="btn-movements">
+
+                <a href="javascript:doPreviousPageMovements()" id="btn-mover-anterior-pagina" class="btn-mover-anterior-pagina"><i id="btn-mover-siguiente-pagina" class="fas fa-long-arrow-alt-left"></i></a>
+                <a href="javascript:doNextPageMovements()" id="btn-mover-siguiente-pagina" class="btn-mover-siguiente-pagina"><i id="btn-mover-siguiente-pagina" class="fas fa-long-arrow-alt-right"></i></a>
+
+            </div>
+
+            <div class="vEco">
+
+                <table>
+
+                    <tr>
+                        <td>Ecosystem</td>
+                        <td id="Ecosystem1">----</td>
+                        <td id="Ecosystem2">----</td>
+                        <td id="Ecosystem3">----</td>
+                        <td id="Ecosystem4">----</td>
+                        <td id="Ecosystem5">----</td>
+                        <td id="Ecosystem6">----</td>
+                        <td id="Ecosystem7">----</td>
+                        <td id="Ecosystem8">----</td>
+                        <td id="Ecosystem9">----</td>
+                        <td id="Ecosystem10">----</td>
+                    </tr>
+                
+                </table>
+
+            </div>
+
+
+    </div>
+  
+    <script src="js/popup.js"></script>
+</body>
+</html>
