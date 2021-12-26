@@ -16,7 +16,7 @@ a {
     text-decoration: none;
     font-family: "Oswald", sans-serif;
 }
-  
+
 .container {
     margin-left: 20px;
     margin-top: 20px;
@@ -55,7 +55,7 @@ col.colCom{
 .container .btn-movements{
     margin-top: 20px;
     margin-left: 35px;
-    flex:1 0 40%;
+    flex:1 0 30%;
     order: 3;
 }
 
@@ -109,191 +109,200 @@ col.colCom{
 .pieces{
     width:38px;
 }
+
 .WPA{
     position: absolute;
     margin-top: 289px;
     margin-left: 31px;
 }
+
 .WPB{
     position: absolute;
     margin-top: 289px;
     margin-left: 74px;
 }
+
 .WPC{
     position: absolute;
     margin-top: 289px;
     margin-left: 117px;
-
 }
+
 .WPD{
     position: absolute;
     margin-top: 289px;
     margin-left: 160px;
 }
+
 .WPE{
     position: absolute;
     margin-top: 289px;
     margin-left: 203px;
 }
+
 .WPF{
     position: absolute;
     margin-top: 289px;
     margin-left: 246px;
-
 }
+
 .WPG{
     position: absolute;
     margin-top: 289px;
     margin-left: 289px;
-
 }
+
 .WPH{
     position: absolute;
     margin-top: 289px;
     margin-left: 332px;
-
 }
+
 .WRA{
     position: absolute;
     margin-top: 332px;
     margin-left: 31px;
-
 }
+
 .WNB{
     position: absolute;
     margin-top: 332px;
     margin-left: 74px;
 
 }
+
 .WBC{
     position: absolute;
     margin-top: 332px;
     margin-left: 117px;
-
 }
+
 .WQ{
     position: absolute;
     margin-top: 332px;
     margin-left: 160px;
-
 }
+
 .WK{
     position: absolute;
     margin-top: 332px;
     margin-left: 203px;
-
 }
+
 .WBF{
     position: absolute;
     margin-top: 332px;
     margin-left: 246px;
-
 }
+
 .WNG{
     position: absolute;
     margin-top: 332px;
     margin-left: 289px;
-
 }
+
 .WRH{
     position: absolute;
     margin-top: 332px;
     margin-left: 332px;
-
 }
+
 .BPA{
     position: absolute;
     margin-top: 74px;
     margin-left: 31px;
 }
+
 .BPB{
     position: absolute;
     margin-top: 74px;
     margin-left: 74px;
 }
+
 .BPC{
     position: absolute;
     margin-top: 74px;
     margin-left: 117px;
-
 }
+
 .BPD{
     position: absolute;
     margin-top: 74px;
     margin-left: 160px;
 }
+
 .BPE{
     position: absolute;
     margin-top: 74px;
     margin-left: 203px;
 }
+
 .BPF{
     position: absolute;
     margin-top: 74px;
     margin-left: 246px;
-
 }
+
 .BPG{
     position: absolute;
     margin-top: 74px;
     margin-left: 289px;
-
 }
+
 .BPH{
     position: absolute;
     margin-top: 74px;
     margin-left: 332px;
-
 }
+
 .BRA{
     position: absolute;
     margin-top: 31px;
     margin-left: 31px;
-
 }
+
 .BNB{
     position: absolute;
     margin-top: 31px;
     margin-left: 74px;
-
 }
+
 .BBC{
     position: absolute;
     margin-top: 31px;
     margin-left: 117px;
-
 }
+
 .BQ{
     position: absolute;
     margin-top: 31px;
     margin-left: 160px;
-
 }
+
 .BK{
     position: absolute;
     margin-top: 31px;
     margin-left: 203px;
-
 }
+
 .BBF{
     position: absolute;
     margin-top: 31px;
     margin-left: 246px;
-
 }
+
 .BNG{
     position: absolute;
     margin-top: 31px;
     margin-left: 289px;
-
 }
+
 .BRH{
     position: absolute;
     margin-top: 31px;
     margin-left: 332px;
 
 }
-
 
 .container .TablasWhite{
     padding: 10px;
@@ -336,6 +345,7 @@ h6{
     border: 1px solid rgb(0, 0, 0);
     order: -5;
     margin-bottom: 20px;
+    margin-left: 30px;
 } 
 
 .container  .btn-info{
@@ -364,7 +374,6 @@ h6{
     order: 6;
 }
 
-
 .container  .btn-mover-primer-paso{
     padding: 7px 25px;
     margin-left: 5px;
@@ -379,6 +388,7 @@ h6{
     transition: .3 ease all;
     border: 1px solid rgb(0, 0, 0);
     order: -9;
+    margin-left: 30px;
 } 
 
 .container .btn-mover-siguiente-paso{
@@ -429,7 +439,6 @@ h6{
     order: -6;
 } 
 
-
 .container  .btn-des{
     padding: 7px 17px;
     text-align: top;
@@ -447,6 +456,7 @@ h6{
     transition: .3 ease all;
     border: 1px solid rgb(0, 0, 0);
     order: -6;
+    margin-left: 33px;
 }
 
 .overlay{

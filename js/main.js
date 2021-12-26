@@ -16,8 +16,9 @@
   var namePieces=["WhitePawnA","WhitePawnB","WhitePawnC","WhitePawnD","WhitePawnE","WhitePawnF","WhitePawnG","WhitePawnH","WhiteRookA","WhiteHorseB","WhiteBishopC","WhiteQueen","WhiteKing","WhiteBishopF","WhiteHorseG","WhiteRookH",
                   "BlackPawnA","BlackPawnB","BlackPawnC","BlackPawnD","BlackPawnE","BlackPawnF","BlackPawnG","BlackPawnH","BlackRookA","BlackHorseB","BlackBishopC","BlackQueen","BlackKing","BlackBishopF","BlackHorseG","BlackRookH"];
   var shNamePieces=["WPA","WPB","WPC","WPD","WPE","WPF","WPG","WPH","WRA","WNB","WBC","WQ","WK","WBF","WNG","WRH","BPA","BPB","BPC","BPD","BPE","BPF","BPG","BPH","BRA","BNB","BBC","BQ","BK","BBF","BNG","BRH"];
+  var shNameMov=["InitialMovement","firstMovWhite","firstMovBlack","secondMovWhite","secondMovBlack","thirdMovWhite","thirdMovBlack","fourthMovWhite","fourthMovBlack","fifthMovWhite","fifthMovBlack","sixthMovWhite","sixthMovBlack","seventhMovWhite","seventhMovBlack","eighthMovWhite","eighthMovBlack","ninthMovWhite","ninthMovBlack","tenthMovWhite","tenthMovBlack","FinalMovement"]
   var side="W";
-  var stateOfPieces = [];
+  var stateOfPieces=[];
   var numPieces=[];
   var positions;
   var mov;
@@ -34,6 +35,7 @@
   var canDown=0;
   var marLetter=["A031","B074","C117","D160","E203","F246","G289","H332"];
   var marNumber=["8031","7074","6117","5160","4203","3246","2289","1332"];
+  var type="White";
 
 //--------------------------------------------------------------------------
 
@@ -45,7 +47,7 @@
  *  @param: None
  */
 function doClick() {
-    var el = document.getElementById("textFile");
+    var el=document.getElementById("textFile");
     if (el) {
       el.click();
     }
@@ -57,11 +59,11 @@ function doClick() {
  *  @param: event
  */
 function openFile(event){
-    let archive = event.target.files[0];
+    let archive=event.target.files[0];
     if (archive){
-        reader = new FileReader();
+        reader=new FileReader();
         reader.readAsText(archive);
-        reader.onload = onLoad;
+        reader.onload=onLoad;
     }
 }
 
@@ -75,8 +77,8 @@ window.addEventListener('load', () => {
  *  @param: None
  */
 function onLoad(){
-  var result = reader.result;
-  lines = result.split('\n');
+  var result=reader.result;
+  lines=result.split('\n');
   var cleanData;
   var i=1;
   for(var linea of lines) {
@@ -174,6 +176,10 @@ function showMovements(){
   document.getElementById("ninthMovBlack").innerText=listMovements[17];
   document.getElementById("tenthMovWhite").innerText=listMovements[18];
   document.getElementById("tenthMovBlack").innerText=listMovements[19];
+  type="Black";
+  document.getElementById("ActualMovementNum").innerText="Mov: 0 Side: " + type;
+  document.getElementById("ActualMovement").innerText="Initial State";
+  type="White";
 }
 
 /** doNextPageMovements() => void 
@@ -325,6 +331,13 @@ function doOneMoveForward(){
       checkTab(step+1);
       checkVisibility(step+1);
     }
+    document.getElementById("ActualMovement").innerText=listMovements[step];
+    document.getElementById("ActualMovementNum").innerText="Mov: "+Math.round((step+1)/2)+ " Side: " + type;
+    if(type=="White"){
+      type="Black";
+    }else{
+      type="White";
+    }
     filled++;
     step++;
   }
@@ -366,6 +379,19 @@ function doOneMoveBackward(){
       checkTab(step-1);
       checkVisibility(step-1);
     }
+    document.getElementById("ActualMovementNum").innerText="Mov: "+Math.trunc((step)/2)+ " Side: " + type;
+    if(listMovements[step-2]==undefined){
+      document.getElementById("ActualMovement").innerText="Initial State";
+      type="Black";
+      document.getElementById("ActualMovementNum").innerText="Mov: 0 Side: " + type;
+    }else{
+      document.getElementById("ActualMovement").innerText=listMovements[step-2];
+    }
+    if(type=="White"){
+      type="Black";
+    }else{
+      type="White";
+    }
     filled--;
     step--;
   }
@@ -385,6 +411,10 @@ function doFirstMove(){
     setfirstvalues();
     checkTab(0);
     checkVisibility(0);
+    type="Black";
+    document.getElementById("ActualMovementNum").innerText="Mov: 0  Side: " + type;
+    document.getElementById("ActualMovement").innerText="Initial State";
+    type="White";
   }
 }
 
@@ -399,19 +429,32 @@ function doLastMove(){
   }else{
     step=movValues.length-1;
     for(var j=0;j<32;j++){
-        for(var i=0;i<10;i++){
-          var numOMF2=i+1;
-          document.getElementById(namePieces[j]+numOMF2).innerText=movValues[step-9+i][j][5];
-          document.getElementById(namePieces[j]+numOMF2).style.backgroundColor=colorsTab[step-9+i][j];
-          document.getElementById("WhiteOverall"+numOMF2).innerText=movValues[step-9+i][32][0];
-          document.getElementById("BlackOverall"+numOMF2).innerText=movValues[step-9+i][32][1];
-          document.getElementById("Ecosystem"+numOMF2).innerText=movValues[step-9+i][32][2];
-        }
+      for(var i=0;i<10;i++){
+        var numOMF2=i+1;
+        document.getElementById(namePieces[j]+numOMF2).innerText=movValues[step-9+i][j][5];
+        document.getElementById(namePieces[j]+numOMF2).style.backgroundColor=colorsTab[step-9+i][j];
+        document.getElementById("WhiteOverall"+numOMF2).innerText=movValues[step-9+i][32][0];
+        document.getElementById("BlackOverall"+numOMF2).innerText=movValues[step-9+i][32][1];
+        document.getElementById("Ecosystem"+numOMF2).innerText=movValues[step-9+i][32][2];
       }
-      checkTab(step);
-      checkVisibility(step); 
     }
-    filled=movValues.length;
+    checkTab(step);
+    checkVisibility(step); 
+  }
+  filled=movValues.length;
+  document.getElementById("ActualMovement").innerText=listMovements[step-1];
+  if((step-1)%2==0){
+    type="White";
+    document.getElementById("ActualMovementNum").innerText="Mov: "+Math.trunc((step+1)/2)+ " Side: " + type;
+  }else{
+    type="Black";
+    document.getElementById("ActualMovementNum").innerText="Mov: "+Math.trunc((step)/2)+ " Side: " + type;
+  }
+  if(type=="White"){
+    type="Black";
+  }else{
+    type="White";
+  }
 }
 
 /** setfirstvalues() => void 
@@ -542,8 +585,9 @@ function calculateMovementsValues(){
     calculateValuesGroups(movValues[yo]);
     actualMovement++;
   }
-  for(var yo=0;yo<movPositions.length;yo++){
-    colorsTab[yo]=calculateColorTab(movValues[yo]);
+  colorsTab[0]=calculateColorTabIni(movValues[0]);
+  for(var yo=1;yo<movPositions.length;yo++){
+    colorsTab[yo]=calculateColorTab(movValues[yo],movValues[yo-1]);
   }
 }
 
@@ -563,9 +607,8 @@ function calculatePositions(move){
   for(var yu=0;yu<32;yu++){
     stateP[yu]=stateOfPieces[actualMovement][yu];
   }
-  numP[0]= numPieces[actualMovement][0];
-  numP[1]= numPieces[actualMovement][1];
-  var charMP;
+  numP[0]=numPieces[actualMovement][0];
+  numP[1]=numPieces[actualMovement][1];
   var movLen=move.length;
   var ch;
   //console.warn("Longuitud del movimiento "+movLen);
@@ -626,7 +669,7 @@ function calculatePositions(move){
           evalPiece(move.charAt(0),move);
           positions[findPosPiece(side+move.charAt(0).toUpperCase())]=move.charAt(1).toUpperCase()+move.charAt(2);
         }else{
-          var difPie = evalPiece(move.charAt(0),move.charAt(1)+move.charAt(2));
+          var difPie=evalPiece(move.charAt(0),move.charAt(1)+move.charAt(2));
           positions[findPosPiece(side+move.charAt(0).toUpperCase()+difPie)]=move.charAt(1).toUpperCase()+move.charAt(2);
         }
       }
@@ -637,25 +680,24 @@ function calculatePositions(move){
         // Castling Kingside and check
         if(side=="W"){
           // WHiTE SIDE
-          ch = calculeLetter("E",2);
-          ch = ch + "1";
+          ch=calculeLetter("E",2);
+          ch=ch + "1";
           positions[findPosPiece("WK")]=ch;
 
-          ch = calculeLetter("H",-2);
-          ch = ch + "1";
+          ch=calculeLetter("H",-2);
+          ch=ch + "1";
           positions[findPosPiece("WRH")]=ch;
         }else{
           // BLACK SIDE
-          ch = calculeLetter("E",2);
-          ch = ch + "8";
+          ch=calculeLetter("E",2);
+          ch=ch + "8";
           positions[findPosPiece("BK")]=ch;
 
-          ch = calculeLetter("H",-2);
-          ch = ch + "8";
+          ch=calculeLetter("H",-2);
+          ch=ch + "8";
           positions[findPosPiece("BRH")]=ch;
         }
         // Trait check
-
       }else if(move.charAt(2)=="="){
         // Pawn promotion
         var n = parseInt(move.charAt(1));
@@ -685,11 +727,11 @@ function calculatePositions(move){
         if(l === l.toLowerCase()){
           var state=[];
           if(side=="W"){
-            var sta= parseInt(move.charAt(3))-1;
+            var sta=parseInt(move.charAt(3))-1;
             state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
             state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
           }else{
-            var sta= parseInt(move.charAt(3))+1;
+            var sta=parseInt(move.charAt(3))+1;
             state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
             state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
           }
@@ -717,7 +759,7 @@ function calculatePositions(move){
             positions[findPosPiece(side+move.charAt(0))]=move.charAt(2).toUpperCase()+move.charAt(3);
           }else{
             differPieces(move.charAt(0));
-            var difPie = evalPiece(move.charAt(0),move.charAt(2).toUpperCase()+move.charAt(3));
+            var difPie=evalPiece(move.charAt(0),move.charAt(2).toUpperCase()+move.charAt(3));
             var pieceCapture=searchPiece(move.charAt(2).toUpperCase()+move.charAt(3));
             positions[findPosPiece(pieceCapture)]="-";
             stateP[findPosPiece(pieceCapture)]="D";
@@ -745,21 +787,21 @@ function calculatePositions(move){
         // Castling Queenside
         if(side=="W"){
           // WHiTE SIDE
-          ch = calculeLetter("E",-2);
-          ch = ch + "1";
+          ch=calculeLetter("E",-2);
+          ch=ch + "1";
           positions[findPosPiece("WK")]=ch;
       
-          ch = calculeLetter("A",3);
-          ch = ch + "1";
+          ch=calculeLetter("A",3);
+          ch=ch + "1";
           positions[findPosPiece("WRA")]=ch;
         }else{
           // BLACK SIDE
-          ch = calculeLetter("E",-2);
-          ch = ch + "8";
+          ch=calculeLetter("E",-2);
+          ch=ch + "8";
           positions[findPosPiece("BK")]=ch;
       
-          ch = calculeLetter("A",3);
-          ch = ch + "8";
+          ch=calculeLetter("A",3);
+          ch=ch + "8";
           positions[findPosPiece("BRA")]=ch;
         }
       }else if(move.charAt(2)=="="){
@@ -774,11 +816,11 @@ function calculatePositions(move){
         if(l === l.toLowerCase()){
           var state=[];
           if(side=="W"){
-            var sta= parseInt(move.charAt(3))-1;
+            var sta=parseInt(move.charAt(3))-1;
             state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
             state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
           }else{
-            var sta= parseInt(move.charAt(3))+1;
+            var sta=parseInt(move.charAt(3))+1;
             state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
             state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
           }
@@ -808,7 +850,7 @@ function calculatePositions(move){
             //Trait Check   
           }else{    
             differPieces(move.charAt(0));
-            var difPie = evalPiece(move.charAt(0),move.charAt(2).toUpperCase()+move.charAt(3));
+            var difPie=evalPiece(move.charAt(0),move.charAt(2).toUpperCase()+move.charAt(3));
             var pieceCapture=searchPiece(move.charAt(2).toUpperCase()+move.charAt(3));
             positions[findPosPiece(pieceCapture)]="-";
             stateP[findPosPiece(pieceCapture)]="D";
@@ -839,21 +881,21 @@ function calculatePositions(move){
         // Castling Queenside and check
         if(side=="W"){
           // WHiTE SIDE
-          ch = calculeLetter("E",-2);
-          ch = ch + "1";
+          ch=calculeLetter("E",-2);
+          ch=ch + "1";
           positions[findPosPiece("WK")]=ch;
 
-          ch = calculeLetter("A",3);
-          ch = ch + "1";
+          ch=calculeLetter("A",3);
+          ch=ch + "1";
           positions[findPosPiece("WRA")]=ch;
         }else{
           // BLACK SIDE
-          ch = calculeLetter("E",-2);
-          ch = ch + "8";
+          ch=calculeLetter("E",-2);
+          ch=ch + "8";
           positions[findPosPiece("BK")]=ch;
       
-          ch = calculeLetter("A",3);
-          ch = ch + "8";
+          ch=calculeLetter("A",3);
+          ch=ch + "8";
           positions[findPosPiece("BRA")]=ch;
         }
         // Trait check 
@@ -898,8 +940,8 @@ function calculatePositions(move){
  *  @param: list: int[]
  */
 function calculateValues(list){
-  values = new Array(32);
-  values = incialiceValues();
+  values=new Array(32);
+  values=incialiceValues();
   site="W";
   for(var au=0;au<32;au++){
     if(au==16){
@@ -1005,18 +1047,17 @@ function incialiceValues(){
  *  @param: str: String, i: number
  */
 function calculeLetter(str,i){
-  var boo = true;
-  str = str.toUpperCase();
+  var boo=true;
+  str=str.toUpperCase();
   if(!(str=="-")){
     for(var j=0;j<letters.length && boo;j++){
       if(str==letters[j]){
         if((j+i)>=letters.length || (j+i)<0){
-          str = "OutBound";
+          str="OutBound";
         }else{
-          var z = j+i;
-          str = letters[j+i];
+          str=letters[j+i];
         }
-        boo = false;
+        boo=false;
       }
     }
   }else{
@@ -1075,9 +1116,9 @@ function  inicializeStates(){
  */
 function changeSide(){
   if(side=="W"){
-    side = "B";
+    side="B";
   }else{
-    side = "W";
+    side="W";
   }
 }
 
@@ -1089,13 +1130,13 @@ function changeSide(){
 function differPieces(type){
   switch(type){
     case "N":
-      differ = "B G";
+      differ="B G";
       break;
     case "R":
-      differ = "A H";
+      differ="A H";
       break;
     case "B":
-      differ = "C F"; 
+      differ="C F"; 
       break;
   }
 }
@@ -1106,13 +1147,13 @@ function differPieces(type){
  *  @param: type: String, state: String
  */
 function evalPiece(type,move){
-  var x = "";
+  var x="";
   var mov=move.charAt(0).toUpperCase()+move.charAt(1);
   if (type=="Q" || type=="K"){
     pieceMovement(positions[findPosPiece(side+type)],mov);
   }else{
     differPieces(type);
-    var valDif1 = positions[findPosPiece(side+type+differ.charAt(0))];
+    var valDif1=positions[findPosPiece(side+type+differ.charAt(0))];
     pieceMovement(type,valDif1);
     var end=false;
     for(var j=0; j<possibleMovements.length && !end;j++){
@@ -1137,57 +1178,57 @@ function evalPiece(type,move){
  */
 function pieceMovement(type,state){
   possibleMovements=[];
-  var letter = state.charAt(0);
-  var num = parseInt(state.charAt(1));
+  var letter=state.charAt(0);
+  var num=parseInt(state.charAt(1));
   var numNew;
   var newState;
-  var pieceUp = false;
-  var pieceDown = false;
-  var pieceRigth = false;
-  var pieceLeft = false;
-  var pieceUpRigth = false;
-  var pieceUpLeft = false;
-  var pieceDownRigth = false;
-  var pieceDownLeft = false;
+  var pieceUp=false;
+  var pieceDown=false;
+  var pieceRigth=false;
+  var pieceLeft=false;
+  var pieceUpRigth=false;
+  var pieceUpLeft=false;
+  var pieceDownRigth=false;
+  var pieceDownLeft=false;
   switch(type){
     case "N":
-      numNew = num + 1;
-      newState = calculeLetter(letter,2) + numNew;
+      numNew=num + 1;
+      newState=calculeLetter(letter,2) + numNew;
       if(!verifyOutbounds(numNew, letter,2)){
         possibleMovements.push(newState);
       }
-      numNew = num - 1;
-      newState = calculeLetter(letter,2) + numNew;
+      numNew=num - 1;
+      newState=calculeLetter(letter,2) + numNew;
       if(!verifyOutbounds(numNew, letter,2)){
         possibleMovements.push(newState);
       }
-      numNew = num + 1;
-      newState = calculeLetter(letter,-2) + numNew;
+      numNew=num + 1;
+      newState=calculeLetter(letter,-2) + numNew;
       if(!verifyOutbounds(numNew, letter,-2)){
         possibleMovements.push(newState);
       }
-      numNew = num - 1;
-      newState = calculeLetter(letter,-2) + numNew;
+      numNew=num - 1;
+      newState=calculeLetter(letter,-2) + numNew;
       if(!verifyOutbounds(numNew, letter,-2)){
         possibleMovements.push(newState);
       }
-      numNew = num + 2;
-      newState = calculeLetter(letter,1) + numNew;
+      numNew=num + 2;
+      newState=calculeLetter(letter,1) + numNew;
       if(!verifyOutbounds(numNew, letter,1)){
         possibleMovements.push(newState);
       }
-      numNew = num - 2;
-      newState = calculeLetter(letter,1) + numNew;
+      numNew=num - 2;
+      newState=calculeLetter(letter,1) + numNew;
       if(!verifyOutbounds(numNew, letter,1)){
         possibleMovements.push(newState);
       }
-      numNew = num + 2;
-      newState = calculeLetter(letter,-1) + numNew;
+      numNew=num + 2;
+      newState=calculeLetter(letter,-1) + numNew;
       if(!verifyOutbounds(numNew, letter,-1)){
         possibleMovements.push(newState);
       }
-      numNew = num - 2;
-      newState = calculeLetter(letter,-1) + numNew;
+      numNew=num - 2;
+      newState=calculeLetter(letter,-1) + numNew;
       if(!verifyOutbounds(numNew, letter,-1)){
         possibleMovements.push(newState);
       }
@@ -1195,42 +1236,42 @@ function pieceMovement(type,state){
     case "R":
       var ind=1;
       while(ind<8){
-        numNew = num;
-        newState = calculeLetter(letter,ind) + numNew;
+        numNew=num;
+        newState=calculeLetter(letter,ind) + numNew;
         if(!verifyOutbounds(numNew, letter,ind)){
           if(!pieceRigth){
             if(havepiece(newState)){
-              pieceRigth = true;
+              pieceRigth=true;
             }
           possibleMovements.push(newState);
           }
         }
-        numNew = num;
-        newState = calculeLetter(letter,-ind) + numNew;
+        numNew=num;
+        newState=calculeLetter(letter,-ind) + numNew;
         if(!verifyOutbounds(numNew, letter,-ind)){
           if(!pieceLeft){
             if(havepiece(newState)){
-              pieceLeft = true;
+              pieceLeft=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num + ind;
-        newState = calculeLetter(letter,0) + numNew;
+        numNew=num + ind;
+        newState=calculeLetter(letter,0) + numNew;
         if(!verifyOutbounds(numNew, letter,0)){
           if(!pieceUp){
             if(havepiece(newState)){
-              pieceUp = true;
+              pieceUp=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num - ind;
-        newState = calculeLetter(letter,0) + numNew;
+        numNew=num - ind;
+        newState=calculeLetter(letter,0) + numNew;
         if(!verifyOutbounds(numNew, letter,0)){
           if(!pieceDown){
             if(havepiece(newState)){
-              pieceDown = true;
+              pieceDown=true;
             }
             possibleMovements.push(newState);
           }
@@ -1241,42 +1282,42 @@ function pieceMovement(type,state){
     case "B":
       var ind=1;
       while(ind<8){
-        numNew = num + ind;
-        newState = calculeLetter(letter,ind) + numNew;
+        numNew=num + ind;
+        newState=calculeLetter(letter,ind) + numNew;
         if(!verifyOutbounds(numNew, letter,ind)){
           if(!pieceUpRigth){
             if(havepiece(newState)){
-              pieceUpRigth = true;
+              pieceUpRigth=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num + ind;
-        newState = calculeLetter(letter,-ind) + numNew;
+        numNew=num + ind;
+        newState=calculeLetter(letter,-ind) + numNew;
         if(!verifyOutbounds(numNew, letter,-ind)){
           if(!pieceUpLeft){
             if(havepiece(newState)){
-              pieceUpLeft = true;
+              pieceUpLeft=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num - ind;
-        newState = calculeLetter(letter,ind) + numNew;
+        numNew=num - ind;
+        newState=calculeLetter(letter,ind) + numNew;
         if(!verifyOutbounds(numNew, letter,ind)){
           if(!pieceDownRigth){
             if(havepiece(newState)){
-              pieceDownRigth = true;
+              pieceDownRigth=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num - ind;
-        newState = calculeLetter(letter,-ind) + numNew;
+        numNew=num - ind;
+        newState=calculeLetter(letter,-ind) + numNew;
         if(!verifyOutbounds(numNew, letter,-ind)){
           if(!pieceDownLeft){
             if(havepiece(newState)){
-              pieceDownLeft = true;
+              pieceDownLeft=true;
             }
             possibleMovements.push(newState);
           }
@@ -1287,82 +1328,82 @@ function pieceMovement(type,state){
     case "Q":
       var ind=1;
       while(ind<8){
-        numNew = num + ind;
-        newState = calculeLetter(letter,ind) + numNew;
+        numNew=num + ind;
+        newState=calculeLetter(letter,ind) + numNew;
         if(!verifyOutbounds(numNew, letter,ind)){
           if(!pieceUpRigth){
             if(havepiece(newState)){
-              pieceUpRigth = true;
+              pieceUpRigth=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num + ind;
-        newState = calculeLetter(letter,-ind) + numNew;
+        numNew=num + ind;
+        newState=calculeLetter(letter,-ind) + numNew;
         if(!verifyOutbounds(numNew, letter,-ind)){
           if(!pieceUpLeft){
             if(havepiece(newState)){
-              pieceUpLeft = true;
+              pieceUpLeft=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num - ind;
-        newState = calculeLetter(letter,ind) + numNew;
+        numNew=num - ind;
+        newState=calculeLetter(letter,ind) + numNew;
         if(!verifyOutbounds(numNew, letter,ind)){
           if(!pieceDownRigth){
             if(havepiece(newState)){
-              pieceDownRigth = true;
+              pieceDownRigth=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num - ind;
-        newState = calculeLetter(letter,-ind) + numNew;
+        numNew=num - ind;
+        newState=calculeLetter(letter,-ind) + numNew;
         if(!verifyOutbounds(numNew, letter,-ind)){
           if(!pieceDownLeft){
             if(havepiece(newState)){
-              pieceDownLeft = true;
+              pieceDownLeft=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num;
-        newState = calculeLetter(letter,ind) + numNew;
+        numNew=num;
+        newState=calculeLetter(letter,ind) + numNew;
         if(!verifyOutbounds(numNew, letter,ind)){
           if(!pieceRigth){
             if(havepiece(newState)){
-              pieceRigth = true;
+              pieceRigth=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num;
-        newState = calculeLetter(letter,-ind) + numNew;
+        numNew=num;
+        newState=calculeLetter(letter,-ind) + numNew;
         if(!verifyOutbounds(numNew, letter,-ind)){
           if(!pieceLeft){
             if(havepiece(newState)){
-              pieceLeft = true;
+              pieceLeft=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num + ind;
-        newState = calculeLetter(letter,0) + numNew;
+        numNew=num + ind;
+        newState=calculeLetter(letter,0) + numNew;
         if(!verifyOutbounds(numNew, letter,0)){
           if(!pieceUp){
             if(havepiece(newState)){
-              pieceUp = true;
+              pieceUp=true;
             }
             possibleMovements.push(newState);
           }
         }
-        numNew = num - ind;
-        newState = calculeLetter(letter,0) + numNew;
+        numNew=num - ind;
+        newState=calculeLetter(letter,0) + numNew;
         if(!verifyOutbounds(numNew, letter,0)){
           if(!pieceDown){
             if(havepiece(newState)){
-              pieceDown = true;
+              pieceDown=true;
             }
             possibleMovements.push(newState);
           }
@@ -1371,61 +1412,61 @@ function pieceMovement(type,state){
       }
       break;
     case "K":
-      numNew = num + 1;
-      newState = calculeLetter(letter,1) + numNew;
+      numNew=num + 1;
+      newState=calculeLetter(letter,1) + numNew;
       if(!verifyOutbounds(numNew, letter,1)){
         possibleMovements.push(newState);
       }
-      numNew = num + 1;
-      newState = calculeLetter(letter,-1) + numNew;
+      numNew=num + 1;
+      newState=calculeLetter(letter,-1) + numNew;
       if(!verifyOutbounds(numNew, letter,-1)){
         possibleMovements.push(newState);
       }
-      numNew = num - 1;
-      newState = calculeLetter(letter,1) + numNew;
+      numNew=num - 1;
+      newState=calculeLetter(letter,1) + numNew;
       if(!verifyOutbounds(numNew, letter,1)){
         possibleMovements.push(newState);
       }
-      numNew = num - 1;
-      newState = calculeLetter(letter,-1) + numNew;
+      numNew=num - 1;
+      newState=calculeLetter(letter,-1) + numNew;
       if(!verifyOutbounds(numNew, letter,-1)){
         possibleMovements.push(newState);
       }
-      numNew = num;
-      newState = calculeLetter(letter,1) + numNew;
+      numNew=num;
+      newState=calculeLetter(letter,1) + numNew;
       if(!verifyOutbounds(numNew, letter,1)){
         possibleMovements.push(newState);
       }
-      numNew = num;
-      newState = calculeLetter(letter,-1) + numNew;
+      numNew=num;
+      newState=calculeLetter(letter,-1) + numNew;
       if(!verifyOutbounds(numNew, letter,-1)){
         possibleMovements.push(newState);
       }
-      numNew = num + 1;
-      newState = calculeLetter(letter,0) + numNew;
+      numNew=num + 1;
+      newState=calculeLetter(letter,0) + numNew;
       if(!verifyOutbounds(numNew, letter,0)){
         possibleMovements.push(newState);
       }
-      numNew = num - 1;
-      newState = calculeLetter(letter,0) + numNew;
+      numNew=num - 1;
+      newState=calculeLetter(letter,0) + numNew;
       if(!verifyOutbounds(numNew, letter,0)){
         possibleMovements.push(newState);
       }     
       break;
     case "P":
       if(site=="W"){
-        numNew = num + 1;
-        newState = calculeLetter(letter,1) + numNew;
+        numNew=num + 1;
+        newState=calculeLetter(letter,1) + numNew;
         possibleMovements.push(newState);
-        numNew = num + 1;
-        newState = calculeLetter(letter,-1) + numNew;
+        numNew=num + 1;
+        newState=calculeLetter(letter,-1) + numNew;
         possibleMovements.push(newState);
       }else{
-        numNew = num - 1;
-        newState = calculeLetter(letter,1) + numNew;
+        numNew=num - 1;
+        newState=calculeLetter(letter,1) + numNew;
         possibleMovements.push(newState);
-        numNew = num - 1;
-        newState = calculeLetter(letter,-1) + numNew;
+        numNew=num - 1;
+        newState=calculeLetter(letter,-1) + numNew;
         possibleMovements.push(newState);
       }
     break;
@@ -1451,7 +1492,6 @@ function verifyOutbounds(number,letter,num){
  *  @param: type: String
  */
 function eliminateJumpingMovements(type){
-  var listNoJumps=[];
   if(!type=="N"){
     var posJM;
     for(var j=0;j<possibleMovements.length;j++){
@@ -1484,7 +1524,7 @@ function havepiece(pos){
  */
 function searchPawn(state){
   var found="";
-  var list = movPositions[actualMovement];
+  var list=movPositions[actualMovement];
   for(var po=0;po<8;po++){
     if(list[po]==state[0] || list[po]==state[1]){
       found=findPiece(po);
@@ -1505,7 +1545,7 @@ function searchPawn(state){
  */
 function searchPiece(state){
   var oldPos="";
-  var list = movPositions[actualMovement];
+  var list=movPositions[actualMovement];
   for(var po=0;po<32;po++){
     if(list[po]==state){
       oldPos=findPiece(po);
@@ -1523,100 +1563,100 @@ function findPiece(pos){
   var posFind;
   switch(pos){
     case 0: 
-      posFind = "WPA";
+      posFind="WPA";
       break;
     case 1: 
-      posFind = "WPB";
+      posFind="WPB";
       break;
     case 2: 
-      posFind = "WPC";
+      posFind="WPC";
       break;
     case 3: 
-      posFind = "WPD";
+      posFind="WPD";
       break;
     case 4: 
-      posFind = "WPE";
+      posFind="WPE";
       break;
     case 5: 
-      posFind = "WPF";
+      posFind="WPF";
       break;
     case 6: 
-      posFind = "WPG";
+      posFind="WPG";
       break;
     case 7: 
-      posFind = "WPH";
+      posFind="WPH";
       break;
     case 8: 
-      posFind = "WRA";
+      posFind="WRA";
       break;
     case 9: 
-      posFind = "WNB";
+      posFind="WNB";
       break;
     case 10: 
-      posFind = "WBC";
+      posFind="WBC";
       break;
     case 11: 
-      posFind = "WQ";
+      posFind="WQ";
       break;
     case 12: 
-      posFind = "WK";
+      posFind="WK";
       break;
     case 13: 
-      posFind = "WBF";
+      posFind="WBF";
       break;
     case 14: 
-      posFind = "WNG";
+      posFind="WNG";
       break;
     case 15: 
-      posFind = "WRH";
+      posFind="WRH";
       break;
     case 16: 
-      posFind = "BPA";
+      posFind="BPA";
       break;
     case 17: 
-      posFind = "BPB";
+      posFind="BPB";
       break;
     case 18: 
-      posFind = "BPC";
+      posFind="BPC";
       break;
     case 19: 
-      posFind = "BPD";
+      posFind="BPD";
       break;
     case 20: 
-      posFind = "BPE";
+      posFind="BPE";
       break;
     case 21: 
-      posFind = "BPF";
+      posFind="BPF";
       break;
     case 22: 
-      posFind = "BPG";
+      posFind="BPG";
       break;
     case 23: 
-      posFind = "BPH";
+      posFind="BPH";
       break;
     case 24: 
-      posFind = "BRA";
+      posFind="BRA";
       break;
     case 25: 
-      posFind = "BNB";
+      posFind="BNB";
       break;
     case 26: 
-      posFind = "BBC";
+      posFind="BBC";
       break;
     case 27: 
-      posFind = "BQ";
+      posFind="BQ";
       break;
     case 28: 
-      posFind = "BK";
+      posFind="BK";
       break;
     case 29: 
-      posFind = "BBF";
+      posFind="BBF";
       break;
     case 30: 
-      posFind = "BNG";
+      posFind="BNG";
       break;
     case 31: 
-      posFind = "BRH";
+      posFind="BRH";
       break;
     default:
       //console.warn("Entro en el default de buscar la pieza");
@@ -1635,100 +1675,100 @@ function findPosPiece(name){
   var posFind;
   switch(name){
     case "WPA": 
-      posFind = 0;
+      posFind=0;
       break;
     case "WPB": 
-      posFind = 1;
+      posFind=1;
       break;
     case "WPC": 
-      posFind = 2;
+      posFind=2;
       break;
     case "WPD": 
-      posFind = 3;
+      posFind=3;
       break;
     case "WPE": 
-      posFind = 4;
+      posFind=4;
       break;
     case "WPF": 
-      posFind = 5;
+      posFind=5;
       break;
     case "WPG": 
-      posFind = 6;
+      posFind=6;
       break;
     case "WPH": 
-      posFind = 7;
+      posFind=7;
       break;
     case "WRA": 
-      posFind = 8;
+      posFind=8;
       break;
     case "WNB": 
-      posFind = 9;
+      posFind=9;
       break;
     case "WBC": 
-      posFind = 10;
+      posFind=10;
       break;
     case "WQ": 
-      posFind = 11;
+      posFind=11;
       break;
     case "WK": 
-      posFind = 12;
+      posFind=12;
       break;
     case "WBF": 
-      posFind = 13;
+      posFind=13;
       break;
     case "WNG": 
-      posFind = 14;
+      posFind=14;
       break;
     case "WRH": 
-      posFind = 15;
+      posFind=15;
       break;
     case "BPA": 
-      posFind = 16;
+      posFind=16;
       break;
     case "BPB": 
-      posFind = 17;
+      posFind=17;
       break;
     case "BPC": 
-      posFind = 18;
+      posFind=18;
       break;
     case "BPD": 
-      posFind = 19;
+      posFind=19;
       break;
     case "BPE": 
-      posFind = 20;
+      posFind=20;
       break;
     case "BPF": 
-      posFind = 21;
+      posFind=21;
       break;
     case "BPG": 
-      posFind = 22;
+      posFind=22;
       break;
     case "BPH": 
-      posFind = 23;
+      posFind=23;
       break;
     case "BRA": 
-      posFind = 24;
+      posFind=24;
       break;
     case "BNB": 
-      posFind = 25;
+      posFind=25;
       break;
     case "BBC": 
-      posFind = 26;
+      posFind=26;
       break;
     case "BQ": 
-      posFind = 27;
+      posFind=27;
       break;
     case "BK": 
-      posFind = 28;
+      posFind=28;
       break;
     case "BBF": 
-      posFind = 29;
+      posFind=29;
       break;
     case "BNG": 
-      posFind = 30;
+      posFind=30;
       break;
     case "BRH": 
-      posFind = 31;
+      posFind=31;
       break;
     default:
       //console.warn("Entro en el default de findoPosPiece buscar la pieza");
@@ -1746,7 +1786,7 @@ function findPosPiece(name){
 function searchPieceDiff(letter,type){
   var oldPos="";
   var fouPie=true;
-  var list = movPositions[actualMovement];
+  var list=movPositions[actualMovement];
   if(side=="W"){
     for(var po=0;po<16 && fouPie;po++){
       if(list[po].charAt(0)==letter){
@@ -1822,23 +1862,44 @@ function checkVisibility(step){
   }
 }
 
-/** calculateColorTab(values: String[][]) => colors: String[]
- *  @description: This function calculate the colors of the values on the table
+/** calculateColorTabIni(values: String[][]) => colors: String[]
+ *  @description: This function calculate the initial colors of the values on the table
  *  @returns: colors: String[]
  *  @param: values: String[][]
  */
-function calculateColorTab(values){
-  colors= new Array(32);
+function calculateColorTabIni(values){
+  colors=new Array(32);
   for(var i=0;i<32;i++){
     var numCol=Number(values[i][5]);
     if(values[i][5]=="D"){
       colors[i]="Gray";
-    }else if(numCol>=0.5){
-      colors[i]="PaleGreen";
-    }else if(numCol>-0.5){
-      colors[i]="Gold";
-    }else{
+    }else if(numCol<=0.0){
       colors[i]="Salmon";
+    }
+  }
+  return colors;
+}
+
+/** calculateColorTab(values: String[][], prevValues: String[][]) => colors: String[]
+ *  @description: This function calculate the colors of the values on the table
+ *  @returns: colors: String[]
+ *  @param: values: String[][], prevValues: String[][]
+ */
+function calculateColorTab(values,prevValues){
+  colors=new Array(32);
+  for(var i=0;i<32;i++){
+    var numCol=Number(values[i][5]);
+    var numColPrev=Number(prevValues[i][5]);
+    if(values[i][5]=="D"){
+      colors[i]="Gray";
+    }else if(numCol<=0.0){
+      colors[i]="Salmon";
+    }else if(numColPrev>numCol){
+      colors[i]="Gold";
+    }else if(numColPrev<numCol){
+      colors[i]="Lime";
+    }else{
+      colors[i]="White";
     }
   }
   return colors;
@@ -1848,38 +1909,38 @@ function arrayObjToCsv(ar) {
 	//comprobamos compatibilidad
 	if(window.Blob && (window.URL || window.webkitURL)){
 		var contenido = "",
-			d = new Date(),
+			d=new Date(),
 			blob,
 			reader,
 			save,
 			clicEvent;
 		//creamos contenido del archivo
-		for (var i = 0; i < ar.length; i++) {
+		for (var i=0;i<ar.length;i++) {
 			//construimos cabecera del csv
 			//resto del contenido
-			contenido += Object.keys(ar[i]).map(function(key){
+			contenido+=Object.keys(ar[i]).map(function(key){
 							return ar[i][key];
 						}).join(";") + "\n";
 		}
 		//creamos el blob
-		blob =  new Blob(["\ufeff", contenido], {type: 'text/csv'});
+		blob=new Blob(["\ufeff", contenido], {type: 'text/csv'});
 		//creamos el reader
-		var reader = new FileReader();
-		reader.onload = function (event) {
+		var reader=new FileReader();
+		reader.onload=function (event) {
 			//escuchamos su evento load y creamos un enlace en dom
-			save = document.createElement('a');
-			save.href = event.target.result;
-			save.target = '_blank';
+			save=document.createElement('a');
+			save.href=event.target.result;
+			save.target='_blank';
 			//aquí le damos nombre al archivo
-			save.download = "Values_"+ d.getDate() + "_" + (d.getMonth()+1) + "_" + d.getFullYear() +".csv";
-			try {
+			save.download="Values_"+ d.getDate() + "_" + (d.getMonth()+1) + "_" + d.getFullYear() +".csv";
+			try{
 				//creamos un evento click
-				clicEvent = new MouseEvent('click', {
+				clicEvent=new MouseEvent('click', {
 					'view': window,
 					'bubbles': true,
 					'cancelable': true
 				});
-			} catch (e) {
+			}catch(e){
 				//si llega aquí es que probablemente implemente la forma antigua de crear un enlace
 				clicEvent = document.createEvent("MouseEvent");
 				clicEvent.initEvent('click', true, true);
@@ -1898,16 +1959,16 @@ function arrayObjToCsv(ar) {
 };
 
 function doDownloadTable() {
-  var heading = [movPositions.length+1];
+  var heading=[movPositions.length+1];
   var lineMov=[];
-  var miArrayDeObjetos = [100];
-  miArrayDeObjetos[0] = heading
-  heading[0] = "Chess pieces balance";
+  var miArrayDeObjetos=[100];
+  miArrayDeObjetos[0]=heading
+  heading[0]="Chess pieces balance";
   for(var i=1;i<movPositions.length+1;i++){
     var num=i-1;
-    heading[i] = "M"+num;
+    heading[i]="M"+num;
   }
-  miArrayDeObjetos[0] = heading;
+  miArrayDeObjetos[0]=heading;
   for(var i=0;i<16;i++){
     lineMov=new Array(movPositions.length+1);
     lineMov[0]=namePieces[i];
@@ -1953,4 +2014,6 @@ function doDownloadTable() {
   miArrayDeObjetos[37]=lineMov;
 	arrayObjToCsv(miArrayDeObjetos);
 }
+
+
 //--------------------------------------------------------------------------
