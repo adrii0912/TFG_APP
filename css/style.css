@@ -55,7 +55,7 @@ col.colCom{
 .container .btn-movements{
     margin-top: 20px;
     margin-left: 35px;
-    flex:1 0 30%;
+    flex:1 0 40%;
     order: 3;
 }
 
@@ -326,6 +326,15 @@ h6{
     font-family: "Oswald", sans-serif;
     font-size: 10 px;
     order: 3;
+    
+}
+
+.container  .TablaActual{
+    font-family: "Oswald", sans-serif;
+    font-size: 10 px;
+    order: -9;
+    margin-bottom: 20px;
+    margin-left: 105px;
 }
 
 .container  .btn-carga{
@@ -387,8 +396,9 @@ h6{
     cursor: pointer;
     transition: .3 ease all;
     border: 1px solid rgb(0, 0, 0);
-    order: -9;
+    order: -8;
     margin-left: 30px;
+    margin-top: 20px;
 } 
 
 .container .btn-mover-siguiente-paso{
@@ -404,7 +414,8 @@ h6{
     cursor: pointer;
     transition: .3 ease all;
     border: 1px solid rgb(0, 0, 0);
-    order: -7;
+    order: -6;
+    margin-top: 20px;
 } 
 
 .container  .btn-mover-anterior-paso{
@@ -420,7 +431,8 @@ h6{
     cursor: pointer;
     transition: .3 ease all;
     border: 1px solid rgb(0, 0, 0);
-    order: -8;
+    order: -7;
+    margin-top: 20px;
 } 
 
 .container .btn-mover-ultimo-paso{
@@ -436,7 +448,8 @@ h6{
     cursor: pointer;
     transition: .3 ease all;
     border: 1px solid rgb(0, 0, 0);
-    order: -6;
+    order: -5;
+    margin-top: 20px;
 } 
 
 .container  .btn-des{
@@ -455,7 +468,7 @@ h6{
     cursor: pointer;
     transition: .3 ease all;
     border: 1px solid rgb(0, 0, 0);
-    order: -6;
+    order: -4;
     margin-left: 33px;
 }
 

@@ -36,6 +36,8 @@
   var marLetter=["A031","B074","C117","D160","E203","F246","G289","H332"];
   var marNumber=["8031","7074","6117","5160","4203","3246","2289","1332"];
   var type="White";
+  var whPlayer="";
+  var blPlayer="";
 
 //--------------------------------------------------------------------------
 
@@ -101,10 +103,12 @@ function onLoad(){
     }else if(i==5){
       cleanData=linea.slice(6,(linea.length-1));
       document.getElementById("infoWhite").innerText=cleanData;
+      whPlayer=cleanData;
       i++;
     }else if(i==6){
       cleanData=linea.slice(7,(linea.length-1));
       document.getElementById("infoBlack").innerText=cleanData;
+      blPlayer=cleanData;
       i++;
     }else if(i==7){
       cleanData=linea.slice(7,(linea.length-1));
@@ -466,6 +470,7 @@ function setfirstvalues(){
   for(var j=0;j<32;j++){
     document.getElementById(namePieces[j]+"1").innerText=movValues[0][j][5];
     document.getElementById(namePieces[j]+"1").style.backgroundColor=colorsTab[0][j];
+    console.log(colorsTab[0][j]);
     document.getElementById(shNamePieces[j]).style.marginLeft=movTab[0][j].charAt(0)+movTab[0][j].charAt(1)+movTab[0][j].charAt(2)+"px";
     document.getElementById(shNamePieces[j]).style.marginTop=movTab[0][j].charAt(3)+movTab[0][j].charAt(4)+movTab[0][j].charAt(5)+"px";
   }
@@ -661,7 +666,21 @@ function calculatePositions(move){
         }
       }else if(move.charAt(2)=="+" || move.charAt(3)=="#"){
         // Pawn movement and check
-        positions[findPosPiece(side+"P"+move.charAt(0))]=move.charAt(0).toUpperCase()+move.charAt(1);
+        var n=parseInt(move.charAt(1));
+        if(side=="W") {
+          n=n-1;
+        }else{
+          n=n+1;
+        }
+        if(positions[findPosPiece(side+"P"+move.charAt(0).toUpperCase())]=="-"){
+          positions[findPosPiece(searchPiece(move.charAt(0).toUpperCase()+n))]=move.charAt(0).toUpperCase()+move.charAt(1);
+        }else{
+          if(searchPiece(move.charAt(0).toUpperCase()+n)==""){
+            positions[findPosPiece(side+"P"+move.charAt(0).toUpperCase())]=move.charAt(0).toUpperCase()+move.charAt(1);
+          }else{
+            positions[findPosPiece(searchPiece(move.charAt(0).toUpperCase()+n))]=move.charAt(0).toUpperCase()+move.charAt(1);
+          }
+        }
         // Trait check
       }else{
         // Piece movement
@@ -735,7 +754,7 @@ function calculatePositions(move){
             state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
             state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
           }
-          var pawn=searchPawn(state);
+          var pawn=searchPawn(state,side);
           var pieceCapture=searchPiece(move.charAt(2).toUpperCase()+move.charAt(3));
           positions[findPosPiece(pieceCapture)]="-";
           stateP[findPosPiece(pieceCapture)]="D";
@@ -782,7 +801,7 @@ function calculatePositions(move){
       }
       break;
     case 5:
-      // Can be piece movement with differentiation and check - piece capture and check - pawn capture and check - Pawn promotion and check - Castling Queenside
+      // Can be piece movement with differentiation and check - piece capture and check - pawn capture and check - Pawn promotion and check - Castling Queenside - Piece capture with differentation
       if(move.charAt(0)=="O"){
         // Castling Queenside
         if(side=="W"){
@@ -824,7 +843,7 @@ function calculatePositions(move){
             state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
             state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
           }
-          var pawn=searchPawn(state);
+          var pawn=searchPawn(state,side);
           var pieceCapture=searchPiece(move.charAt(2).toUpperCase()+move.charAt(3));
           positions[findPosPiece(pieceCapture)]="-";
           stateP[findPosPiece(pieceCapture)]="D";
@@ -862,6 +881,30 @@ function calculatePositions(move){
             positions[findPosPiece(side+move.charAt(0)+difPie)]=move.charAt(2).toUpperCase()+move.charAt(3);
             //Trait Check
           }
+        }
+      }else if(move.charAt(2)=="x"){
+        // Piece capture with differentiation
+        if(move.charAt(0)=="K" || move.charAt(0)=="Q"){
+          evalPiece(move.charAt(0),move.charAt(2).toUpperCase()+move.charAt(3));
+          var pieceCapture=searchPiece(move.charAt(2).toUpperCase()+move.charAt(3));
+          positions[findPosPiece(pieceCapture)]="-";
+          stateP[findPosPiece(pieceCapture)]="D";
+          if(side=="W"){
+            numP[1]--;
+          }else{
+            numP[0]--;
+          }
+          positions[findPosPiece(side+move.charAt(0))]=move.charAt(2).toUpperCase()+move.charAt(3);
+        }else{
+          var pieceCapture=searchPiece(move.charAt(3).toUpperCase()+move.charAt(4));
+          positions[findPosPiece(pieceCapture)]="-";
+          stateP[findPosPiece(pieceCapture)]="D";
+          if(side=="W"){
+            numP[1]--;
+          }else{
+            numP[0]--;
+          }
+          positions[findPosPiece(searchPieceDiff(move.charAt(1).toUpperCase(),move.charAt(0)))]=move.charAt(3).toUpperCase()+move.charAt(4);
         }
       }else{
         // Piece movement with differentiation and check
@@ -902,11 +945,18 @@ function calculatePositions(move){
       }else{
         // Pawn capture and promotion
         var state=[];
-        state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + (move.charAt(3)-1);
-        state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + (move.charAt(3)-1);
-        var pawn=searchPawn(state);
+        if(side=="W"){
+          var sta=parseInt(move.charAt(3))-1;
+          state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
+          state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
+        }else{
+          var sta=parseInt(move.charAt(3))+1;
+          state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
+          state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
+        }
+        var pawn=searchPawn(state,side);
         var pieceCapture=searchPiece(move.charAt(2).toUpperCase()+move.charAt(3));
-        positions.set(pieceCapture,"-");
+        positions[findPosPiece(pieceCapture)]="-";
         stateP[findPosPiece(pieceCapture)]="D";
         if(side=="W"){
           numP[1]--;
@@ -915,12 +965,35 @@ function calculatePositions(move){
         }
         positions[findPosPiece(pawn)]=move.charAt(2).toUpperCase() + move.charAt(3);
         // Trait promotion
-        stateP[findPosPiece(pawn)]="P"+move.charAt(3);
+        stateP[findPosPiece(pawn)]="P"+move.charAt(5);
       }
       break;
     case 7:
       // Can be pawn capture, promotion and check -
-      console.warn("WORKING ON");
+      console.log("Case 7");
+      var state=[];
+      if(side=="W"){
+        var sta=parseInt(move.charAt(3))-1;
+        state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
+        state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
+      }else{
+        var sta=parseInt(move.charAt(3))+1;
+        state[0]=calculeLetter(move.charAt(2).toUpperCase(),-1) + sta;
+        state[1]=calculeLetter(move.charAt(2).toUpperCase(),1) + sta;
+      }
+      var pawn=searchPawn(state,side);
+      var pieceCapture=searchPiece(move.charAt(2).toUpperCase()+move.charAt(3));
+      positions[findPosPiece(pieceCapture)]="-";
+      stateP[findPosPiece(pieceCapture)]="D";
+      if(side=="W"){
+        numP[1]--;
+      }else{
+        numP[0]--;
+      }
+      positions[findPosPiece(pawn)]=move.charAt(2).toUpperCase() + move.charAt(3);
+      // Trait promotion
+      stateP[findPosPiece(pawn)]="P"+move.charAt(5);
+      //Trait check
       break;
     default:
       //Not possible
@@ -1522,19 +1595,25 @@ function havepiece(pos){
  *  @returns: found: String
  *  @param: state: String
  */
-function searchPawn(state){
+function searchPawn(state,side){
   var found="";
   var list=movPositions[actualMovement];
-  for(var po=0;po<8;po++){
-    if(list[po]==state[0] || list[po]==state[1]){
-      found=findPiece(po);
+  console.log("stados: "+state[0]+" y " +state[1]+" lado "+ side);
+  if(side=="W"){
+    for(var po=0;po<8;po++){
+      console.log(list[po]);
+      if(list[po]==state[0] || list[po]==state[1]){
+        found=findPiece(po);
+      }
+    }
+  }else{
+    for(var po=16;po<24;po++){
+      if(list[po]==state[0] || list[po]==state[1]){
+        found=findPiece(po);
+      }
     }
   }
-  for(var po=16;po<24;po++){
-    if(list[po]==state[0] || list[po]==state[1]){
-      found=findPiece(po);
-    }
-  }
+  console.log("Encontro "+found);
   return found;
 }
 
@@ -1787,21 +1866,49 @@ function searchPieceDiff(letter,type){
   var oldPos="";
   var fouPie=true;
   var list=movPositions[actualMovement];
-  if(side=="W"){
-    for(var po=0;po<16 && fouPie;po++){
-      if(list[po].charAt(0)==letter){
-        oldPos=findPiece(po);
-        if(oldPos.charAt(1)==type){
-          fouPie=false;
+  var isNum=false;
+  for(var i=0;i<8;i++){
+    if(letter==numbers[i]){
+      isNum=true;
+    }
+  }
+  if(isNum){
+    if(side=="W"){
+      for(var po=0;po<16 && fouPie;po++){
+        if(list[po].charAt(1)==letter){
+          oldPos=findPiece(po);
+          if(oldPos.charAt(1)==type){
+            fouPie=false;
+          }
+        }
+      }
+    }else{
+      for(var po=16;po<32 && fouPie;po++){
+        if(list[po].charAt(1)==letter){
+          oldPos=findPiece(po);
+          if(oldPos.charAt(1)==type){
+            fouPie=false;
+          }
         }
       }
     }
   }else{
-    for(var po=16;po<32 && fouPie;po++){
-      if(list[po].charAt(0)==letter){
-        oldPos=findPiece(po);
-        if(oldPos.charAt(1)==type){
-          fouPie=false;
+    if(side=="W"){
+      for(var po=0;po<16 && fouPie;po++){
+        if(list[po].charAt(0)==letter){
+          oldPos=findPiece(po);
+          if(oldPos.charAt(1)==type){
+            fouPie=false;
+          }
+        }
+      }
+    }else{
+      for(var po=16;po<32 && fouPie;po++){
+        if(list[po].charAt(0)==letter){
+          oldPos=findPiece(po);
+          if(oldPos.charAt(1)==type){
+            fouPie=false;
+          }
         }
       }
     }
@@ -1847,6 +1954,8 @@ function checkTab(step){
   }
 }
 
+
+
 /** checkVisibility(step: number) => void
  *  @description: This function check the visibility of the pieces
  *  @returns: void
@@ -1875,6 +1984,8 @@ function calculateColorTabIni(values){
       colors[i]="Gray";
     }else if(numCol<=0.0){
       colors[i]="Salmon";
+    }else{
+      colors[i]="White";
     }
   }
   return colors;
@@ -1932,7 +2043,7 @@ function arrayObjToCsv(ar) {
 			save.href=event.target.result;
 			save.target='_blank';
 			//aquí le damos nombre al archivo
-			save.download="Values_"+ d.getDate() + "_" + (d.getMonth()+1) + "_" + d.getFullYear() +".csv";
+			save.download="Values"+whPlayer+"_vs_"+blPlayer+".csv";
 			try{
 				//creamos un evento click
 				clicEvent=new MouseEvent('click', {
