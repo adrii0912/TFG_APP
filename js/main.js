@@ -38,6 +38,7 @@
   var type="White";
   var whPlayer="";
   var blPlayer="";
+  var dateGame="";
 
 //--------------------------------------------------------------------------
 
@@ -95,6 +96,7 @@ function onLoad(){
     }else if(i==3){
       cleanData=linea.slice(5,(linea.length-1));
       document.getElementById("infoDate").innerText=cleanData;
+      dateGame=cleanData;
       i++;
     }else if(i==4){
       cleanData=linea.slice(6,(linea.length-1));
@@ -2043,7 +2045,7 @@ function arrayObjToCsv(ar) {
 			save.href=event.target.result;
 			save.target='_blank';
 			//aquí le damos nombre al archivo
-			save.download="Values"+whPlayer+"_vs_"+blPlayer+".csv";
+			save.download="Values"+whPlayer+"_vs_"+blPlayer+""+dateGame +".csv";
 			try{
 				//creamos un evento click
 				clicEvent=new MouseEvent('click', {
